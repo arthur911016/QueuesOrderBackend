@@ -11,7 +11,9 @@ const db = new sqlite3.Database(DB_SOURCE, (err) => {
         db.run(`CREATE TABLE queues (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             queue text
-            )`);
+        )`, () => {
+            return;
+        });
     }
 });
 
