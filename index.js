@@ -1,20 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Methods = require('./src/methods')
+const cors = require('cors')
+const { getQueueDataById, getAllQueues, deleteQueue, updateQueue, createNewQueue } = require('./src/core/services/services');
 
 
 const app = express();
-const port = 3000;
+const port = 3005;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
-app.get('/queues', (req, res) => {
-    res.send(Methods.getAllQueues());
-});
+app.get('/queues', getAllQueues);
 
-app.get('/queues/:id', (req, res) => {
-    res.send(Methods.getQueueDataById(Number(req.params.id) || 0));
-});
+app.post("/queues", createNewQueue);
 
-app.listen(port, () => console.log(`Bribes calculator on port ${port}!`))
+app.get('/queues/:id', getQueueDataById);
+
+app.delete("/queues/:id", deleteQueue);
+
+app.put("/queues/:id", updateQueue);
+
+app.listen(port, () => console.log(`Bribes calculator on port ${port}!`));
